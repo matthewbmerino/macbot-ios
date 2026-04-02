@@ -9,7 +9,77 @@ struct MobileChatView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Top bar — below Dynamic Island
+            ScrollViewReader { proxy in
+                ScrollView {
+                    if viewModel.messages.isEmpty {
+                        VStack(spacing: 16) {
+                            Spacer(minLength: 200)
+                            Image(systemName: "brain")
+                                .font(.system(size: 44))
+                                .foregroundStyle(.tertiary)
+                            Text("What can I help with?")
+                                .font(.title3)
+                                .foregroundStyle(.secondary)
+                            Text("On-device AI. Nothing leaves your phone.")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                        }
+                        .frame(maxWidth: .infinity)
+                    } else {
+                        LazyVStack(alignment: .leading, spacing: 10) {
+                            ForEach(viewModel.messages) { msg in
+                                MobileMessageBubble(message: msg)
+                                    .id(msg.id)
+                            }
+
+                            if let status = viewModel.currentStatus {
+                                HStack(spacing: 8) {
+                                    ProgressView().controlSize(.small)
+                                    Text(status)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .italic()
+                                }
+                                .padding(.horizontal, 16)
+                                .id("status")
+                            }
+                        }
+                        .padding(.vertical, 12)
+                    }
+                }
+                .onChange(of: viewModel.messages.count) {
+                    withAnimation {
+                        if let id = viewModel.messages.last?.id {
+                            proxy.scrollTo(id, anchor: .bottom)
+                        }
+                    }
+                }
+            }
+
+            Divider()
+
+            HStack(spacing: 10) {
+                TextField("Message...", text: $viewModel.inputText, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .lineLimit(1...5)
+                    .focused($inputFocused)
+                    .onSubmit { viewModel.send() }
+                    .disabled(viewModel.isStreaming)
+
+                Button(action: { viewModel.send() }) {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(
+                            viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty
+                            ? Color.secondary.opacity(0.3) : Color.accentColor
+                        )
+                }
+                .disabled(viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isStreaming)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+        }
+        .safeAreaInset(edge: .top) {
             HStack {
                 Text("iPhoneBot")
                     .font(.headline)
@@ -31,65 +101,9 @@ struct MobileChatView: View {
                 }
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            .padding(.top, 54) // Clear the Dynamic Island on iPhone 17 Pro Max
-
-            Divider()
-
-            // Messages — fills all remaining space
-            ScrollViewReader { proxy in
-                ScrollView {
-                    if viewModel.messages.isEmpty {
-                        emptyState
-                    } else {
-                        LazyVStack(alignment: .leading, spacing: 8) {
-                            ForEach(viewModel.messages) { msg in
-                                MobileMessageBubble(message: msg)
-                                    .id(msg.id)
-                            }
-
-                            if let status = viewModel.currentStatus {
-                                HStack(spacing: 8) {
-                                    ProgressView().controlSize(.small)
-                                    Text(status)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .italic()
-                                }
-                                .padding(.horizontal, 16)
-                                .id("status")
-                            }
-
-                            if viewModel.isStreaming && viewModel.currentStatus == nil
-                                && viewModel.messages.last?.role == .user {
-                                HStack(spacing: 4) {
-                                    ForEach(0..<3, id: \.self) { _ in
-                                        Circle()
-                                            .fill(.secondary.opacity(0.4))
-                                            .frame(width: 6, height: 6)
-                                    }
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                            }
-                        }
-                        .padding(.vertical, 8)
-                    }
-                }
-                .onChange(of: viewModel.messages.count) {
-                    withAnimation {
-                        if let id = viewModel.messages.last?.id {
-                            proxy.scrollTo(id, anchor: .bottom)
-                        }
-                    }
-                }
-            }
-
-            // Input bar
-            Divider()
-            inputBar
+            .padding(.vertical, 8)
+            .background(.bar)
         }
-        .ignoresSafeArea(.keyboard)
         .sheet(isPresented: $showSettings) {
             MobileSettingsView(appState: appState)
         }
@@ -98,53 +112,6 @@ struct MobileChatView: View {
         }
         .onAppear { inputFocused = true }
     }
-
-    // MARK: - Input Bar
-
-    private var inputBar: some View {
-        HStack(spacing: 10) {
-            TextField("Message...", text: $viewModel.inputText, axis: .vertical)
-                .textFieldStyle(.roundedBorder)
-                .lineLimit(1...4)
-                .focused($inputFocused)
-                .onSubmit { viewModel.send() }
-                .disabled(viewModel.isStreaming)
-
-            Button(action: { viewModel.send() }) {
-                Image(systemName: "arrow.up.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(
-                        viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty
-                        ? Color.secondary.opacity(0.3) : Color.accentColor
-                    )
-            }
-            .disabled(viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isStreaming)
-        }
-        .padding(.horizontal, 16)
-        .padding(.top, 10)
-        .padding(.bottom, 34) // Clear home indicator on iPhone 17 Pro Max
-        .background(.bar)
-    }
-
-    // MARK: - Empty State
-
-    private var emptyState: some View {
-        VStack(spacing: 16) {
-            Spacer()
-            Image(systemName: "brain")
-                .font(.system(size: 44))
-                .foregroundStyle(.tertiary)
-            Text("What can I help with?")
-                .font(.title3)
-                .foregroundStyle(.secondary)
-            Text("All processing happens on this device.\nNothing leaves your phone.")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
-                .multilineTextAlignment(.center)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, minHeight: 400)
-    }
 }
 
 struct MobileMessageBubble: View {
@@ -152,7 +119,6 @@ struct MobileMessageBubble: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            // Header
             HStack(spacing: 6) {
                 Image(systemName: message.role == .user ? "person.circle.fill" : "brain")
                     .font(.subheadline)
@@ -172,14 +138,12 @@ struct MobileMessageBubble: View {
                 Spacer()
             }
 
-            // Content
             if !message.content.isEmpty {
                 Text(message.content)
                     .font(.body)
                     .textSelection(.enabled)
             }
 
-            // Images
             if let images = message.images, !images.isEmpty {
                 ForEach(Array(images.enumerated()), id: \.offset) { _, data in
                     #if os(iOS)
@@ -203,6 +167,6 @@ struct MobileMessageBubble: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 6)
+        .padding(.vertical, 4)
     }
 }

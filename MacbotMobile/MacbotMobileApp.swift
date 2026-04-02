@@ -13,12 +13,6 @@ struct iPhoneBotApp: App {
                     ModeSelectionView(appState: appState)
                 }
             }
-            #if os(iOS)
-            .background(Color(uiColor: .systemBackground))
-            #else
-            .background(Color(nsColor: .windowBackgroundColor))
-            #endif
-            .ignoresSafeArea(edges: .all)
         }
     }
 }

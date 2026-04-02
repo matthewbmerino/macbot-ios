@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct MacbotMobileApp: App {
+struct iPhoneBotApp: App {
     @State private var appState = MobileAppState()
 
     var body: some Scene {

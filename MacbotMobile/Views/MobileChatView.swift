@@ -67,7 +67,7 @@ struct MobileChatView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
             }
-            .navigationTitle("Macbot")
+            .navigationTitle("iPhoneBot")
             .toolbar {
                 ToolbarItem(placement: .automatic) {
                     Text(viewModel.activeAgent.displayName)

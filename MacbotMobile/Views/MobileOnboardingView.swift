@@ -15,7 +15,7 @@ struct MobileOnboardingView: View {
                     .font(.system(size: 56))
                     .foregroundStyle(Color.accentColor)
 
-                Text("Macbot")
+                Text("iPhoneBot")
                     .font(.largeTitle)
                     .fontWeight(.bold)
 

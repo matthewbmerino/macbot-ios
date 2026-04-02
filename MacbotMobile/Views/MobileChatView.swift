@@ -9,7 +9,7 @@ struct MobileChatView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Top bar
+            // Top bar — below Dynamic Island
             HStack {
                 Text("iPhoneBot")
                     .font(.headline)
@@ -32,6 +32,7 @@ struct MobileChatView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
+            .padding(.top, 54) // Clear the Dynamic Island on iPhone 17 Pro Max
 
             Divider()
 
@@ -120,7 +121,8 @@ struct MobileChatView: View {
             .disabled(viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isStreaming)
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 10)
+        .padding(.top, 10)
+        .padding(.bottom, 34) // Clear home indicator on iPhone 17 Pro Max
         .background(.bar)
     }
 

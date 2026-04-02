@@ -6,11 +6,19 @@ struct iPhoneBotApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if appState.isReady, let vm = appState.chatViewModel {
-                MobileChatView(viewModel: vm, appState: appState)
-            } else {
-                ModeSelectionView(appState: appState)
+            Group {
+                if appState.isReady, let vm = appState.chatViewModel {
+                    MobileChatView(viewModel: vm, appState: appState)
+                } else {
+                    ModeSelectionView(appState: appState)
+                }
             }
+            #if os(iOS)
+            .background(Color(uiColor: .systemBackground))
+            #else
+            .background(Color(nsColor: .windowBackgroundColor))
+            #endif
+            .ignoresSafeArea(edges: .all)
         }
     }
 }
@@ -38,7 +46,7 @@ struct ModeSelectionView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
-                .padding(.top, 60)
+                .padding(.top, 80) // Clear Dynamic Island
                 .padding(.bottom, 40)
 
                 // Action cards

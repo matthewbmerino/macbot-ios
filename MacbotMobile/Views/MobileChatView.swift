@@ -7,7 +7,10 @@ struct MobileChatView: View {
     @State private var showModels = false
 
     var body: some View {
-        GeometryReader { geo in
+        ZStack {
+            Color(red: 0.07, green: 0.07, blue: 0.07)
+                .ignoresSafeArea()
+
             VStack(spacing: 0) {
                 // Header
                 HStack {
@@ -15,73 +18,81 @@ struct MobileChatView: View {
                         .foregroundStyle(Color.accentColor)
                     Text("iPhoneBot")
                         .font(.headline)
+                        .foregroundStyle(.white)
                     Spacer()
                     if viewModel.isStreaming {
-                        ProgressView().controlSize(.small)
+                        ProgressView().controlSize(.small).tint(.white)
                     }
                     Button(action: { showModels = true }) {
-                        Image(systemName: "cpu")
+                        Image(systemName: "cpu").foregroundStyle(.white)
                     }
                     Button(action: { viewModel.newChat() }) {
-                        Image(systemName: "square.and.pencil")
+                        Image(systemName: "square.and.pencil").foregroundStyle(.white)
                     }
                 }
                 .padding(.horizontal, 16)
-                .frame(height: 50)
+                .padding(.top, 8)
+                .padding(.bottom, 8)
 
-                Divider()
+                Divider().background(.gray.opacity(0.3))
 
-                // Messages — explicit height to fill remaining space
-                ScrollViewReader { proxy in
-                    ScrollView {
-                        LazyVStack(alignment: .leading, spacing: 10) {
-                            if viewModel.messages.isEmpty {
-                                VStack(spacing: 12) {
-                                    Image(systemName: "brain")
-                                        .font(.system(size: 36))
-                                        .foregroundStyle(.tertiary)
-                                    Text("What can I help with?")
-                                        .font(.headline)
-                                        .foregroundStyle(.secondary)
+                // Messages — this is the key: Spacer pushes input down, ScrollView fills remaining
+                if viewModel.messages.isEmpty {
+                    Spacer()
+                    VStack(spacing: 12) {
+                        Image(systemName: "brain")
+                            .font(.system(size: 36))
+                            .foregroundStyle(.gray.opacity(0.4))
+                        Text("What can I help with?")
+                            .font(.headline)
+                            .foregroundStyle(.gray)
+                    }
+                    Spacer()
+                } else {
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            LazyVStack(alignment: .leading, spacing: 12) {
+                                ForEach(viewModel.messages) { msg in
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(msg.role == .user ? "You" : "iPhoneBot")
+                                            .font(.caption)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(msg.role == .user ? .white : Color.accentColor)
+                                        Text(msg.content)
+                                            .font(.body)
+                                            .foregroundStyle(.white)
+                                            .textSelection(.enabled)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .id(msg.id)
                                 }
-                                .frame(maxWidth: .infinity)
-                                .padding(.top, 60)
+
+                                if let status = viewModel.currentStatus {
+                                    HStack(spacing: 6) {
+                                        ProgressView().controlSize(.small).tint(.gray)
+                                        Text(status).font(.caption).foregroundStyle(.gray)
+                                    }
+                                    .padding(.horizontal, 16)
+                                }
                             }
-
-                            ForEach(viewModel.messages) { msg in
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(msg.role == .user ? "You" : "iPhoneBot")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(msg.role == .user ? .primary : Color.accentColor)
-                                    Text(msg.content)
-                                        .font(.body)
-                                        .textSelection(.enabled)
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 4)
-                                .id(msg.id)
-                            }
-
-                            if let status = viewModel.currentStatus {
-                                HStack(spacing: 6) {
-                                    ProgressView().controlSize(.small)
-                                    Text(status).font(.caption).foregroundStyle(.secondary)
-                                }
-                                .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                        }
+                        .onChange(of: viewModel.messages.count) {
+                            if let id = viewModel.messages.last?.id {
+                                withAnimation { proxy.scrollTo(id, anchor: .bottom) }
                             }
                         }
-                    }
-                    .frame(height: geo.size.height - 110)
-                    .onChange(of: viewModel.messages.count) {
-                        if let id = viewModel.messages.last?.id {
-                            withAnimation { proxy.scrollTo(id, anchor: .bottom) }
+                        .onChange(of: viewModel.messages.last?.content) { _, _ in
+                            if let id = viewModel.messages.last?.id {
+                                proxy.scrollTo(id, anchor: .bottom)
+                            }
                         }
                     }
                 }
 
                 // Input
-                Divider()
+                Divider().background(.gray.opacity(0.3))
                 HStack(spacing: 8) {
                     TextField("Message...", text: $viewModel.inputText)
                         .textFieldStyle(.roundedBorder)
@@ -92,13 +103,14 @@ struct MobileChatView: View {
                         Image(systemName: "arrow.up.circle.fill")
                             .font(.title2)
                             .foregroundStyle(
-                                viewModel.inputText.isEmpty ? Color.gray : Color.accentColor
+                                viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty
+                                ? Color.gray.opacity(0.4) : Color.accentColor
                             )
                     }
-                    .disabled(viewModel.inputText.isEmpty || viewModel.isStreaming)
+                    .disabled(viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isStreaming)
                 }
                 .padding(.horizontal, 12)
-                .frame(height: 50)
+                .padding(.vertical, 8)
             }
         }
         .sheet(isPresented: $showModels) {

@@ -22,7 +22,7 @@ struct ModeSelectionView: View {
     @State private var showModels = false
 
     var body: some View {
-        NavigationStack {
+        ScrollView {
             VStack(spacing: 0) {
                 // Top section — branding
                 VStack(spacing: 12) {
@@ -103,10 +103,10 @@ struct ModeSelectionView: View {
                 }
                 .padding(.bottom, 40)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .sheet(isPresented: $showModels) {
-                ModelBrowserView()
-            }
+            .frame(maxWidth: .infinity)
+        }
+        .sheet(isPresented: $showModels) {
+            ModelBrowserView()
         }
     }
 

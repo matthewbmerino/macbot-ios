@@ -32,7 +32,7 @@ final class MemoryStore {
     @discardableResult
     func save(category: String, content: String, metadata: String = "{}") -> Int64 {
         let now = Date()
-        var memory = Memory(
+        let memory = Memory(
             category: category, content: content, metadata: metadata,
             createdAt: now, updatedAt: now
         )
@@ -69,7 +69,7 @@ final class MemoryStore {
     }
 
     func saveConversationSummary(userId: String, summary: String, messageCount: Int) {
-        var record = ConversationSummary(
+        let record = ConversationSummary(
             userId: userId, summary: summary,
             messageCount: messageCount, createdAt: Date()
         )

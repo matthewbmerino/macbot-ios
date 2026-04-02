@@ -37,7 +37,7 @@ struct HookContext: Sendable {
     let event: HookEvent
     var agentName: String = ""
     var toolName: String = ""
-    var toolArgs: [String: Any] = [:]
+    
     var result: String = ""
     var error: String = ""
     var metadata: [String: String] = [:]
@@ -55,7 +55,7 @@ struct HookContext: Sendable {
     ) -> HookContext {
         HookContext(
             event: event, agentName: agentName, toolName: toolName,
-            toolArgs: toolArgs, result: result, error: error, metadata: metadata
+            result: result, error: error, metadata: metadata
         )
     }
 }

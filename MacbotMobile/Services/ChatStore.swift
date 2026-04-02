@@ -34,7 +34,7 @@ final class ChatStore {
 
     func createChat(title: String = "New Chat") -> ChatRecord {
         let now = Date()
-        var chat = ChatRecord(
+        let chat = ChatRecord(
             id: UUID().uuidString,
             title: title,
             lastMessage: "",
@@ -91,7 +91,7 @@ final class ChatStore {
     // MARK: - Messages
 
     func saveMessage(chatId: String, role: String, content: String, agentCategory: String? = nil) {
-        var msg = ChatMessageRecord(
+        let msg = ChatMessageRecord(
             chatId: chatId,
             role: role,
             content: content,

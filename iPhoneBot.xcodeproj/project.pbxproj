@@ -57,7 +57,7 @@
 		43982706E3E37C5696A0010E /* GeneralAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralAgent.swift; sourceTree = "<group>"; };
 		4A3540BC8297F90B429BEC3C /* MobileOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileOnboardingView.swift; sourceTree = "<group>"; };
 		4AD3E693A9B7EAAECAD2BD2E /* StreamEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamEvent.swift; sourceTree = "<group>"; };
-		4F787ABA1A2C9A0958DB8A84 /* iPhoneBot.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = iPhoneBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F787ABA1A2C9A0958DB8A84 /* iPhoneBot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPhoneBot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		545AA125DFDD40B71372A389 /* CoderAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoderAgent.swift; sourceTree = "<group>"; };
 		5AE9558D062E5008DE514C91 /* ToolSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolSpec.swift; sourceTree = "<group>"; };
 		6F98D9D4841D6631BAD3BDFE /* ToolRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolRegistry.swift; sourceTree = "<group>"; };
@@ -257,7 +257,6 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					8663F1521CE8A3814290171F = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -272,7 +271,7 @@
 			mainGroup = 39DBDBEB125CAD9E235CA35D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+				B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB" */,
 				7A0FD4ADE1D9816206171CD3 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -453,7 +452,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2YPRK37S5Y;
 				INFOPLIST_VALUES = "CFBundleName=$(PRODUCT_NAME)\nCFBundleDisplayName=iPhoneBot\nUILaunchScreen={}\nNSLocalNetworkUsageDescription=Connects to your local Ollama AI server.\n";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -474,7 +473,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2YPRK37S5Y;
 				INFOPLIST_VALUES = "CFBundleName=$(PRODUCT_NAME)\nCFBundleDisplayName=iPhoneBot\nUILaunchScreen={}\nNSLocalNetworkUsageDescription=Connects to your local Ollama AI server.\n";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -520,7 +519,7 @@
 				minimumVersion = 4.2.2;
 			};
 		};
-		B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+		B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/groue/GRDB.swift";
 			requirement = {
@@ -533,7 +532,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		51155DD5E09C94B7C6834F73 /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			package = B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB" */;
 			productName = GRDB;
 		};
 		C92F672CEC4056616C830E1A /* KeychainAccess */ = {

@@ -37,6 +37,7 @@
 		AD47B48A64DBCD34DE67A444 /* ReasonerAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A83BADE1C5B72A47313A09 /* ReasonerAgent.swift */; };
 		ADF5F76EC7D0380CF1212089 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0B5C54D9AF1C3929797022 /* ModelManager.swift */; };
 		CF138EFA52425CBB70B42F04 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 51155DD5E09C94B7C6834F73 /* GRDB */; };
+		D07252D25D96ECBA70191AC4 /* LocalChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A57C64A513E8526B3E80CA7 /* LocalChatViewModel.swift */; };
 		D25F05E18EE2F84EC8C86AA5 /* VisionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFB8B1BD4CCDC2958B7F5C9 /* VisionAgent.swift */; };
 		DEBB26E69EE1C45D9876F11C /* ModelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91ADBEFBB72F49435ACA96B /* ModelConfig.swift */; };
 		DF1BA918BDFAE14D825A74B8 /* FinanceTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7586844E8DB6211728C11A6E /* FinanceTools.swift */; };
@@ -54,6 +55,7 @@
 		0E5761EBB328B880E494C09D /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		154259BBBD8BA43332B50EE8 /* WebTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTools.swift; sourceTree = "<group>"; };
 		217C8E598346527C8EFF9B34 /* InferenceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceProvider.swift; sourceTree = "<group>"; };
+		2A57C64A513E8526B3E80CA7 /* LocalChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalChatViewModel.swift; sourceTree = "<group>"; };
 		30D0BA5F9C29DFAF6505C7B6 /* OllamaClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaClient.swift; sourceTree = "<group>"; };
 		36B702EA879E7B4F4572DF52 /* Orchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orchestrator.swift; sourceTree = "<group>"; };
 		3963B5AF17839545EABAA4BC /* ModelBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBrowserView.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				81BFCE109B09BF408471E298 /* ChatViewModel.swift */,
+				2A57C64A513E8526B3E80CA7 /* LocalChatViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				EBF0E96A78D105E7F4842CA1 /* HookSystem.swift in Sources */,
 				95612B5BAB4B536BCC8006B0 /* InferenceProvider.swift in Sources */,
 				41659F27B8A3C80F602ED766 /* KeychainManager.swift in Sources */,
+				D07252D25D96ECBA70191AC4 /* LocalChatViewModel.swift in Sources */,
 				0E2CC7AA608A85FFCB87B11B /* LocalInference.swift in Sources */,
 				02D72CBE658A819CB12966BA /* Logger.swift in Sources */,
 				FDBDEE819F23DA7D5D0A7B77 /* MacbotMobileApp.swift in Sources */,

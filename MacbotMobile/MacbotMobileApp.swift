@@ -6,7 +6,7 @@ struct iPhoneBotApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if appState.isReady, let vm = appState.chatViewModel {
+            if appState.isReady, let vm = appState.localChatViewModel {
                 MobileChatView(viewModel: vm, appState: appState)
             } else {
                 ModeSelectionView(appState: appState)
@@ -153,10 +153,10 @@ struct ModeSelectionView: View {
 
 @Observable
 final class MobileAppState {
-    var chatViewModel: ChatViewModel?
-    var orchestrator: Orchestrator?
+    var localChatViewModel: LocalChatViewModel?
     var localInference: LocalInference?
     var isReady = false
+    var loadError: String?
 
     var serverHost: String {
         get { UserDefaults.standard.string(forKey: "serverHost") ?? "" }
@@ -164,34 +164,30 @@ final class MobileAppState {
     }
 
     @MainActor
-    func startLocal() async {
-        guard let model = ModelManager.shared.downloadedModels.first else { return }
+    func startServer(host: String) async {
+        // Server mode — for future use connecting to Mac's Ollama
+        serverHost = host
+    }
 
+    @MainActor
+    func startLocal() async {
+        guard let model = ModelManager.shared.downloadedModels.first else {
+            loadError = "No model downloaded. Download one first."
+            return
+        }
+
+        loadError = nil
         let inference = LocalInference()
         do {
             try await inference.loadModel(path: model.path.path)
         } catch {
+            loadError = "Failed to load model: \(error.localizedDescription)"
             Log.app.error("Failed to load model: \(error)")
             return
         }
 
         self.localInference = inference
-        let orch = Orchestrator()
-        let vm = ChatViewModel(orchestrator: orch)
-        self.orchestrator = orch
-        self.chatViewModel = vm
+        self.localChatViewModel = LocalChatViewModel(inference: inference)
         self.isReady = true
-    }
-
-    @MainActor
-    func startServer(host: String) async {
-        serverHost = host
-        let orch = Orchestrator(host: host)
-        let vm = ChatViewModel(orchestrator: orch)
-        self.orchestrator = orch
-        self.chatViewModel = vm
-        self.isReady = true
-
-        Task.detached { await orch.prewarm() }
     }
 }

@@ -79,7 +79,7 @@ struct MobileOnboardingView: View {
         if reachable {
             testResult = "Connected — found Ollama server"
             try? await Task.sleep(for: .seconds(0.5))
-            await appState.configure(host: host)
+            await appState.startServer(host: host)
         } else {
             testResult = "Could not connect. Make sure Ollama is running and bound to 0.0.0.0"
         }

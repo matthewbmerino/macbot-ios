@@ -14,7 +14,7 @@ struct MobileSettingsView: View {
 
                     Button("Reconnect") {
                         Task {
-                            await appState.configure(host: hostInput.hasPrefix("http") ? hostInput : "http://\(hostInput)")
+                            await appState.startServer(host: hostInput.hasPrefix("http") ? hostInput : "http://\(hostInput)")
                             dismiss()
                         }
                     }

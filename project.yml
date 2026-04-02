@@ -33,7 +33,8 @@ targets:
           CFBundleDisplayName=iPhoneBot
           UILaunchScreen={}
           NSLocalNetworkUsageDescription=Connects to your local Ollama AI server.
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: 2YPRK37S5Y
         CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
         SWIFT_VERSION: "5.10"
         GENERATE_INFOPLIST_FILE: "YES"

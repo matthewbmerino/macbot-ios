@@ -257,7 +257,7 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					8663F1521CE8A3814290171F = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 2YPRK37S5Y;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -450,10 +450,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2YPRK37S5Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_VALUES = "CFBundleName=$(PRODUCT_NAME)\nCFBundleDisplayName=iPhoneBot\nUILaunchScreen={}\nNSLocalNetworkUsageDescription=Connects to your local Ollama AI server.\n";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -472,10 +472,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2YPRK37S5Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_VALUES = "CFBundleName=$(PRODUCT_NAME)\nCFBundleDisplayName=iPhoneBot\nUILaunchScreen={}\nNSLocalNetworkUsageDescription=Connects to your local Ollama AI server.\n";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -23,109 +23,131 @@ struct ModeSelectionView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Spacer()
-
-                Image(systemName: "brain")
-                    .font(.system(size: 56))
-                    .foregroundStyle(Color.accentColor)
-
-                Text("iPhoneBot")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-
-                Text("Private AI — runs entirely on your iPhone")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
-                Spacer()
-
+            VStack(spacing: 0) {
+                // Top section — branding
                 VStack(spacing: 12) {
-                    // Download models
+                    Image(systemName: "brain")
+                        .font(.system(size: 48))
+                        .foregroundStyle(Color.accentColor)
+
+                    Text("iPhoneBot")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+
+                    Text("Private AI — runs entirely on your iPhone")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.top, 60)
+                .padding(.bottom, 40)
+
+                // Action cards
+                VStack(spacing: 12) {
+                    // Download models — primary
                     Button(action: { showModels = true }) {
-                        HStack {
-                            Image(systemName: "arrow.down.circle")
-                            VStack(alignment: .leading) {
-                                Text("Download a Model")
-                                    .fontWeight(.semibold)
+                        actionCard(
+                            icon: "arrow.down.circle.fill",
+                            iconColor: Color.accentColor,
+                            title: "Download a Model",
+                            subtitle: {
                                 let count = ModelManager.shared.downloadedModels.count
-                                Text(count > 0 ? "\(count) model\(count == 1 ? "" : "s") on device" : "Choose a model to get started")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.tertiary)
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.quaternary.opacity(0.3))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                return count > 0 ? "\(count) model\(count == 1 ? "" : "s") on device" : "Choose a model to get started"
+                            }()
+                        )
                     }
                     .buttonStyle(.plain)
 
-                    // Start chatting (if model available)
+                    // Start chatting
                     if !ModelManager.shared.downloadedModels.isEmpty {
                         Button(action: { Task { await appState.startLocal() } }) {
-                            HStack {
-                                Image(systemName: "message")
-                                VStack(alignment: .leading) {
-                                    Text("Start Chatting")
-                                        .fontWeight(.semibold)
-                                    Text("Using \(ModelManager.shared.downloadedModels.first?.name ?? "local model")")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundStyle(.tertiary)
-                            }
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.accentColor.opacity(0.1))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            actionCard(
+                                icon: "message.fill",
+                                iconColor: .green,
+                                title: "Start Chatting",
+                                subtitle: "Using \(ModelManager.shared.downloadedModels.first?.name ?? "local model")"
+                            )
                         }
                         .buttonStyle(.plain)
                     }
 
-                    // Connect to Mac (secondary)
+                    // Connect to Mac
                     NavigationLink {
                         MobileOnboardingView(appState: appState)
                     } label: {
-                        HStack {
-                            Image(systemName: "network")
-                            VStack(alignment: .leading) {
-                                Text("Connect to Mac")
-                                    .fontWeight(.semibold)
-                                Text("Use bigger models via Ollama on your Mac")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.tertiary)
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(.quaternary.opacity(0.3))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        actionCard(
+                            icon: "network",
+                            iconColor: .orange,
+                            title: "Connect to Mac",
+                            subtitle: "Use bigger models via Ollama"
+                        )
                     }
                     .buttonStyle(.plain)
                 }
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 20)
 
                 Spacer()
 
-                Text("All processing stays on your device.\nNothing leaves your phone.")
-                    .font(.caption2)
-                    .foregroundStyle(.quaternary)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 20)
+                // Bottom info
+                VStack(spacing: 16) {
+                    // Device info
+                    let ram = Int(Double(ProcessInfo.processInfo.physicalMemory) / 1e9)
+                    HStack(spacing: 20) {
+                        infoChip(icon: "memorychip", text: "\(ram)GB RAM")
+                        infoChip(icon: "cpu", text: "A18 Pro")
+                        infoChip(icon: "lock.shield", text: "On-Device")
+                    }
+
+                    Text("Nothing leaves your phone. Ever.")
+                        .font(.caption2)
+                        .foregroundStyle(.quaternary)
+                }
+                .padding(.bottom, 40)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .sheet(isPresented: $showModels) {
                 ModelBrowserView()
             }
         }
+    }
+
+    private func actionCard(icon: String, iconColor: Color, title: String, subtitle: String) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundStyle(iconColor)
+                .frame(width: 36)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.primary)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .font(.caption)
+                .foregroundStyle(.quaternary)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+    }
+
+    private func infoChip(icon: String, text: String) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: icon)
+                .font(.caption2)
+            Text(text)
+                .font(.caption2)
+        }
+        .foregroundStyle(.tertiary)
     }
 }
 
@@ -141,7 +163,6 @@ final class MobileAppState {
         set { UserDefaults.standard.set(newValue, forKey: "serverHost") }
     }
 
-    /// Start with on-device model via llama.cpp.
     @MainActor
     func startLocal() async {
         guard let model = ModelManager.shared.downloadedModels.first else { return }
@@ -155,7 +176,6 @@ final class MobileAppState {
         }
 
         self.localInference = inference
-        // Use a simple orchestrator — local models don't need multi-agent routing
         let orch = Orchestrator()
         let vm = ChatViewModel(orchestrator: orch)
         self.orchestrator = orch
@@ -163,7 +183,6 @@ final class MobileAppState {
         self.isReady = true
     }
 
-    /// Start in server mode — connect to Mac's Ollama.
     @MainActor
     func startServer(host: String) async {
         serverHost = host

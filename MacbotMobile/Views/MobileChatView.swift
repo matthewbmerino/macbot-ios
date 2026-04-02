@@ -107,13 +107,13 @@ struct MobileChatView: View {
             Text("What can I help with?")
                 .font(.title3)
                 .foregroundStyle(.secondary)
-            Text("Connected to your Mac.\nAll processing on-device.")
+            Text("All processing happens on this device.\nNothing leaves your phone.")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)
             Spacer()
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

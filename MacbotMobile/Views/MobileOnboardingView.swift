@@ -29,9 +29,7 @@ struct MobileOnboardingView: View {
                 VStack(spacing: 12) {
                     TextField("Mac address (e.g. 192.168.1.100:11434)", text: $hostInput)
                         .textFieldStyle(.roundedBorder)
-                        .keyboardType(.URL)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
+                        .textContentType(.URL)
 
                     if let result = testResult {
                         Text(result)
@@ -62,7 +60,6 @@ struct MobileOnboardingView: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 20)
             }
-            .navigationTitle("")
         }
         .onAppear {
             if !appState.serverHost.isEmpty {

@@ -9,7 +9,6 @@ struct MobileChatView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Messages
                 ScrollViewReader { proxy in
                     ScrollView {
                         if viewModel.messages.isEmpty {
@@ -47,7 +46,6 @@ struct MobileChatView: View {
 
                 Divider()
 
-                // Input
                 HStack(spacing: 10) {
                     TextField("Message...", text: $viewModel.inputText, axis: .vertical)
                         .textFieldStyle(.plain)
@@ -70,9 +68,8 @@ struct MobileChatView: View {
                 .padding(.vertical, 10)
             }
             .navigationTitle("Macbot")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .automatic) {
                     Text(viewModel.activeAgent.displayName)
                         .font(.caption2)
                         .fontWeight(.medium)
@@ -81,7 +78,7 @@ struct MobileChatView: View {
                         .background(.quaternary)
                         .clipShape(Capsule())
                 }
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     Menu {
                         Button("New Chat") { viewModel.newChat() }
                         Button("Settings") { showSettings = true }
@@ -147,13 +144,23 @@ struct MobileMessageBubble: View {
 
             if let images = message.images, !images.isEmpty {
                 ForEach(Array(images.enumerated()), id: \.offset) { _, data in
-                    if let uiImage = UIImage(data: data) {
-                        Image(uiImage: uiImage)
+                    #if os(iOS)
+                    if let img = UIImage(data: data) {
+                        Image(uiImage: img)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxHeight: 250)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
+                    #else
+                    if let img = NSImage(data: data) {
+                        Image(nsImage: img)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxHeight: 250)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+                    #endif
                 }
             }
         }

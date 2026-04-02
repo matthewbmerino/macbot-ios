@@ -10,9 +10,7 @@ struct MobileSettingsView: View {
             Form {
                 Section("Server Connection") {
                     TextField("Ollama host", text: $hostInput)
-                        .keyboardType(.URL)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
+                        .textContentType(.URL)
 
                     Button("Reconnect") {
                         Task {
@@ -36,9 +34,8 @@ struct MobileSettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     Button("Done") { dismiss() }
                 }
             }

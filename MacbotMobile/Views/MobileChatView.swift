@@ -8,27 +8,32 @@ struct MobileChatView: View {
     @State private var showModels = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    if viewModel.messages.isEmpty {
-                        VStack(spacing: 16) {
-                            Spacer(minLength: 200)
-                            Image(systemName: "brain")
-                                .font(.system(size: 44))
-                                .foregroundStyle(.tertiary)
-                            Text("What can I help with?")
-                                .font(.title3)
-                                .foregroundStyle(.secondary)
-                            Text("On-device AI. Nothing leaves your phone.")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                        .frame(maxWidth: .infinity)
-                    } else {
-                        LazyVStack(alignment: .leading, spacing: 10) {
+        NavigationView {
+            VStack(spacing: 0) {
+                ScrollViewReader { proxy in
+                    List {
+                        if viewModel.messages.isEmpty {
+                            Section {
+                                VStack(spacing: 12) {
+                                    Image(systemName: "brain")
+                                        .font(.system(size: 36))
+                                        .foregroundStyle(.tertiary)
+                                    Text("What can I help with?")
+                                        .font(.headline)
+                                        .foregroundStyle(.secondary)
+                                    Text("On-device AI. Nothing leaves your phone.")
+                                        .font(.caption)
+                                        .foregroundStyle(.tertiary)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 40)
+                                .listRowBackground(Color.clear)
+                            }
+                        } else {
                             ForEach(viewModel.messages) { msg in
                                 MobileMessageBubble(message: msg)
+                                    .listRowSeparator(.hidden)
+                                    .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                                     .id(msg.id)
                             }
 
@@ -40,77 +45,87 @@ struct MobileChatView: View {
                                         .foregroundStyle(.secondary)
                                         .italic()
                                 }
-                                .padding(.horizontal, 16)
+                                .listRowSeparator(.hidden)
                                 .id("status")
                             }
                         }
-                        .padding(.vertical, 12)
                     }
-                }
-                .onChange(of: viewModel.messages.count) {
-                    withAnimation {
-                        if let id = viewModel.messages.last?.id {
-                            proxy.scrollTo(id, anchor: .bottom)
+                    .listStyle(.plain)
+                    .onChange(of: viewModel.messages.count) {
+                        withAnimation {
+                            if let id = viewModel.messages.last?.id {
+                                proxy.scrollTo(id, anchor: .bottom)
+                            }
                         }
                     }
                 }
-            }
 
-            Divider()
+                Divider()
 
-            HStack(spacing: 10) {
-                TextField("Message...", text: $viewModel.inputText, axis: .vertical)
-                    .textFieldStyle(.roundedBorder)
-                    .lineLimit(1...5)
-                    .focused($inputFocused)
-                    .onSubmit { viewModel.send() }
-                    .disabled(viewModel.isStreaming)
+                HStack(spacing: 10) {
+                    TextField("Message...", text: $viewModel.inputText, axis: .vertical)
+                        .textFieldStyle(.roundedBorder)
+                        .lineLimit(1...5)
+                        .focused($inputFocused)
+                        .onSubmit { viewModel.send() }
+                        .disabled(viewModel.isStreaming)
 
-                Button(action: { viewModel.send() }) {
-                    Image(systemName: "arrow.up.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(
-                            viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty
-                            ? Color.secondary.opacity(0.3) : Color.accentColor
-                        )
+                    Button(action: { viewModel.send() }) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .font(.title2)
+                            .foregroundStyle(
+                                viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty
+                                ? Color.secondary.opacity(0.3) : Color.accentColor
+                            )
+                    }
+                    .disabled(viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isStreaming)
                 }
-                .disabled(viewModel.inputText.trimmingCharacters(in: .whitespaces).isEmpty || viewModel.isStreaming)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-        }
-        .safeAreaInset(edge: .top) {
-            HStack {
-                Text("iPhoneBot")
-                    .font(.headline)
-                Text(viewModel.activeAgent.displayName)
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(.quaternary)
-                    .clipShape(Capsule())
-                Spacer()
-                Menu {
-                    Button("New Chat") { viewModel.newChat() }
-                    Button("Models") { showModels = true }
-                    Button("Settings") { showSettings = true }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .font(.title3)
+            .navigationTitle("iPhoneBot")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                #if os(iOS)
+                ToolbarItem(placement: .topBarLeading) {
+                    Text(viewModel.activeAgent.displayName)
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(.quaternary)
+                        .clipShape(Capsule())
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button("New Chat") { viewModel.newChat() }
+                        Button("Models") { showModels = true }
+                        Button("Settings") { showSettings = true }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
+                #else
+                ToolbarItem(placement: .automatic) {
+                    Menu {
+                        Button("New Chat") { viewModel.newChat() }
+                        Button("Models") { showModels = true }
+                        Button("Settings") { showSettings = true }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
+                #endif
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(.bar)
+            .sheet(isPresented: $showSettings) {
+                MobileSettingsView(appState: appState)
+            }
+            .sheet(isPresented: $showModels) {
+                ModelBrowserView()
+            }
         }
-        .sheet(isPresented: $showSettings) {
-            MobileSettingsView(appState: appState)
-        }
-        .sheet(isPresented: $showModels) {
-            ModelBrowserView()
-        }
-        .onAppear { inputFocused = true }
     }
 }
 
@@ -127,14 +142,6 @@ struct MobileMessageBubble: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(message.role == .user ? .primary : Color.accentColor)
-                if let agent = message.agentCategory {
-                    Text(agent.displayName)
-                        .font(.caption2)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(.quaternary)
-                        .clipShape(Capsule())
-                }
                 Spacer()
             }
 
@@ -167,6 +174,5 @@ struct MobileMessageBubble: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 4)
     }
 }

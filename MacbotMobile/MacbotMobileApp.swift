@@ -6,12 +6,10 @@ struct iPhoneBotApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Group {
-                if appState.isReady, let vm = appState.chatViewModel {
-                    MobileChatView(viewModel: vm, appState: appState)
-                } else {
-                    ModeSelectionView(appState: appState)
-                }
+            if appState.isReady, let vm = appState.chatViewModel {
+                MobileChatView(viewModel: vm, appState: appState)
+            } else {
+                ModeSelectionView(appState: appState)
             }
         }
     }

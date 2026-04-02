@@ -149,14 +149,13 @@ final class ModelManager {
         let (asyncBytes, response) = try await URLSession.shared.bytes(for: request)
         let totalBytes = response.expectedContentLength
 
-        let fileHandle = try FileHandle(forWritingTo: destURL)
-        // Create the file first
+        // Create the file and open for writing
         FileManager.default.createFile(atPath: destURL.path, contents: nil)
         let handle = try FileHandle(forWritingTo: destURL)
 
         var downloaded: Int64 = 0
         var buffer = Data()
-        let chunkSize = 1024 * 1024 // 1MB chunks
+        let chunkSize = 256 * 1024 // 256KB chunks
 
         for try await byte in asyncBytes {
             buffer.append(byte)
@@ -173,15 +172,16 @@ final class ModelManager {
             }
         }
 
-        // Write remaining
+        // Write remaining bytes
         if !buffer.isEmpty {
             handle.write(buffer)
+            downloaded += Int64(buffer.count)
         }
         handle.closeFile()
 
         await MainActor.run { downloadProgress = 1.0 }
         refresh()
-        Log.app.info("Downloaded model: \(model.name) to \(destURL.lastPathComponent)")
+        Log.app.info("Downloaded model: \(model.name) (\(downloaded / 1_000_000)MB)")
     }
 
     // MARK: - Delete

@@ -36,3 +36,4 @@ targets:
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic
         SWIFT_VERSION: "5.10"
+        GENERATE_INFOPLIST_FILE: "YES"

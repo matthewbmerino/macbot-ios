@@ -8,97 +8,94 @@ struct MobileChatView: View {
     @State private var showModels = false
 
     var body: some View {
-        NavigationStack {
-            GeometryReader { geo in
-                VStack(spacing: 0) {
-                    // Messages — takes all available space
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            if viewModel.messages.isEmpty {
-                                emptyState(height: geo.size.height - 60)
-                            } else {
-                                LazyVStack(alignment: .leading, spacing: 8) {
-                                    ForEach(viewModel.messages) { msg in
-                                        MobileMessageBubble(message: msg)
-                                            .id(msg.id)
-                                    }
+        VStack(spacing: 0) {
+            // Top bar
+            HStack {
+                Text("iPhoneBot")
+                    .font(.headline)
+                Text(viewModel.activeAgent.displayName)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(.quaternary)
+                    .clipShape(Capsule())
+                Spacer()
+                Menu {
+                    Button("New Chat") { viewModel.newChat() }
+                    Button("Models") { showModels = true }
+                    Button("Settings") { showSettings = true }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .font(.title3)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
 
-                                    if let status = viewModel.currentStatus {
-                                        HStack(spacing: 8) {
-                                            ProgressView().controlSize(.small)
-                                            Text(status)
-                                                .font(.caption)
-                                                .foregroundStyle(.secondary)
-                                                .italic()
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .id("status")
-                                    }
+            Divider()
 
-                                    if viewModel.isStreaming && viewModel.currentStatus == nil
-                                        && viewModel.messages.last?.role == .user {
-                                        HStack(spacing: 4) {
-                                            ForEach(0..<3, id: \.self) { _ in
-                                                Circle()
-                                                    .fill(.secondary.opacity(0.4))
-                                                    .frame(width: 6, height: 6)
-                                            }
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
+            // Messages — fills all remaining space
+            ScrollViewReader { proxy in
+                ScrollView {
+                    if viewModel.messages.isEmpty {
+                        emptyState
+                    } else {
+                        LazyVStack(alignment: .leading, spacing: 8) {
+                            ForEach(viewModel.messages) { msg in
+                                MobileMessageBubble(message: msg)
+                                    .id(msg.id)
+                            }
+
+                            if let status = viewModel.currentStatus {
+                                HStack(spacing: 8) {
+                                    ProgressView().controlSize(.small)
+                                    Text(status)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .italic()
+                                }
+                                .padding(.horizontal, 16)
+                                .id("status")
+                            }
+
+                            if viewModel.isStreaming && viewModel.currentStatus == nil
+                                && viewModel.messages.last?.role == .user {
+                                HStack(spacing: 4) {
+                                    ForEach(0..<3, id: \.self) { _ in
+                                        Circle()
+                                            .fill(.secondary.opacity(0.4))
+                                            .frame(width: 6, height: 6)
                                     }
                                 }
+                                .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
                             }
                         }
-                        .frame(maxHeight: .infinity)
-                        .onChange(of: viewModel.messages.count) {
-                            withAnimation {
-                                if let id = viewModel.messages.last?.id {
-                                    proxy.scrollTo(id, anchor: .bottom)
-                                }
-                            }
+                        .padding(.vertical, 8)
+                    }
+                }
+                .onChange(of: viewModel.messages.count) {
+                    withAnimation {
+                        if let id = viewModel.messages.last?.id {
+                            proxy.scrollTo(id, anchor: .bottom)
                         }
                     }
+                }
+            }
 
-                    // Input bar — pinned to bottom
-                    Divider()
-                    inputBar
-                }
-                .frame(width: geo.size.width, height: geo.size.height)
-            }
-            .navigationTitle("iPhoneBot")
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .automatic) {
-                    Text(viewModel.activeAgent.displayName)
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(.quaternary)
-                        .clipShape(Capsule())
-                }
-                ToolbarItem(placement: .automatic) {
-                    Menu {
-                        Button("New Chat") { viewModel.newChat() }
-                        Button("Models") { showModels = true }
-                        Button("Settings") { showSettings = true }
-                    } label: {
-                        Image(systemName: "ellipsis.circle")
-                    }
-                }
-            }
-            .sheet(isPresented: $showSettings) {
-                MobileSettingsView(appState: appState)
-            }
-            .sheet(isPresented: $showModels) {
-                ModelBrowserView()
-            }
-            .onAppear { inputFocused = true }
+            // Input bar
+            Divider()
+            inputBar
         }
+        .ignoresSafeArea(.keyboard)
+        .sheet(isPresented: $showSettings) {
+            MobileSettingsView(appState: appState)
+        }
+        .sheet(isPresented: $showModels) {
+            ModelBrowserView()
+        }
+        .onAppear { inputFocused = true }
     }
 
     // MARK: - Input Bar
@@ -129,7 +126,7 @@ struct MobileChatView: View {
 
     // MARK: - Empty State
 
-    private func emptyState(height: CGFloat) -> some View {
+    private var emptyState: some View {
         VStack(spacing: 16) {
             Spacer()
             Image(systemName: "brain")
@@ -144,8 +141,7 @@ struct MobileChatView: View {
                 .multilineTextAlignment(.center)
             Spacer()
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: height)
+        .frame(maxWidth: .infinity, minHeight: 400)
     }
 }
 

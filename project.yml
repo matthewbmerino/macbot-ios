@@ -12,6 +12,9 @@ packages:
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
     from: "4.2.2"
+  swift-llama-cpp:
+    url: https://github.com/pgorzelany/swift-llama-cpp
+    from: "1.0.0"
 
 targets:
   iPhoneBot:
@@ -23,6 +26,8 @@ targets:
       - package: GRDB
         product: GRDB
       - package: KeychainAccess
+      - package: swift-llama-cpp
+        product: SwiftLlama
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.matthewbmerino.iphonebot
@@ -38,3 +43,4 @@ targets:
         CODE_SIGN_IDENTITY: "Apple Development"
         SWIFT_VERSION: "5.10"
         GENERATE_INFOPLIST_FILE: "YES"
+        SWIFT_OBJC_INTEROP_MODE: objcxx

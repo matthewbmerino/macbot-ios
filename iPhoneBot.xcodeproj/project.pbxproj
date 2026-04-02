@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		02D72CBE658A819CB12966BA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5761EBB328B880E494C09D /* Logger.swift */; };
+		05E079A3560E30C389613010 /* SwiftLlama in Frameworks */ = {isa = PBXBuildFile; productRef = C493AECE56588B24C24D10F2 /* SwiftLlama */; };
+		0E2CC7AA608A85FFCB87B11B /* LocalInference.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ABDB92D153A231F176DADE /* LocalInference.swift */; };
 		0E505EA3DCB29D1D0326BF57 /* MobileOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3540BC8297F90B429BEC3C /* MobileOnboardingView.swift */; };
 		18AA580F435EEC00B9A3D3C8 /* CoderAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 545AA125DFDD40B71372A389 /* CoderAgent.swift */; };
 		2DD03000112A5CAE0EEE2DB4 /* PromptModules.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47081D6BBA8F406122EC6FA /* PromptModules.swift */; };
@@ -30,8 +32,10 @@
 		9114625DE1C9C0F371F46879 /* OllamaClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D0BA5F9C29DFAF6505C7B6 /* OllamaClient.swift */; };
 		95612B5BAB4B536BCC8006B0 /* InferenceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217C8E598346527C8EFF9B34 /* InferenceProvider.swift */; };
 		9EE501EFC7471F7F13B65105 /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCAAD17CE6895961009ACB1 /* ChatStore.swift */; };
+		A3F380531C0985916BA8172E /* ModelBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3963B5AF17839545EABAA4BC /* ModelBrowserView.swift */; };
 		AADC9BB05B2AD8E97F962FD2 /* ThinkingStripper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0018CD84E7FC7CD86756528A /* ThinkingStripper.swift */; };
 		AD47B48A64DBCD34DE67A444 /* ReasonerAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A83BADE1C5B72A47313A09 /* ReasonerAgent.swift */; };
+		ADF5F76EC7D0380CF1212089 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0B5C54D9AF1C3929797022 /* ModelManager.swift */; };
 		CF138EFA52425CBB70B42F04 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 51155DD5E09C94B7C6834F73 /* GRDB */; };
 		D25F05E18EE2F84EC8C86AA5 /* VisionAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFB8B1BD4CCDC2958B7F5C9 /* VisionAgent.swift */; };
 		DEBB26E69EE1C45D9876F11C /* ModelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91ADBEFBB72F49435ACA96B /* ModelConfig.swift */; };
@@ -52,6 +56,7 @@
 		217C8E598346527C8EFF9B34 /* InferenceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceProvider.swift; sourceTree = "<group>"; };
 		30D0BA5F9C29DFAF6505C7B6 /* OllamaClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaClient.swift; sourceTree = "<group>"; };
 		36B702EA879E7B4F4572DF52 /* Orchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orchestrator.swift; sourceTree = "<group>"; };
+		3963B5AF17839545EABAA4BC /* ModelBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBrowserView.swift; sourceTree = "<group>"; };
 		3BD4E55569C43C3965CE9E52 /* HookSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookSystem.swift; sourceTree = "<group>"; };
 		411B01932C0EA27106AB815E /* MobileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSettingsView.swift; sourceTree = "<group>"; };
 		43982706E3E37C5696A0010E /* GeneralAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralAgent.swift; sourceTree = "<group>"; };
@@ -72,6 +77,8 @@
 		CA7716A1842015B89D960208 /* MemoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryStore.swift; sourceTree = "<group>"; };
 		D4D53059BDB34FF67A5CA592 /* MacbotMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacbotMobileApp.swift; sourceTree = "<group>"; };
 		D91ADBEFBB72F49435ACA96B /* ModelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConfig.swift; sourceTree = "<group>"; };
+		DD0B5C54D9AF1C3929797022 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
+		E3ABDB92D153A231F176DADE /* LocalInference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalInference.swift; sourceTree = "<group>"; };
 		E3C943EFC628C4BB1A5BB4C2 /* BaseAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAgent.swift; sourceTree = "<group>"; };
 		E47081D6BBA8F406122EC6FA /* PromptModules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptModules.swift; sourceTree = "<group>"; };
 		F7C205A7014A27BC812358E2 /* AgentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentCategory.swift; sourceTree = "<group>"; };
@@ -84,6 +91,7 @@
 			files = (
 				CF138EFA52425CBB70B42F04 /* GRDB in Frameworks */,
 				3B0332A16C2CD22CB21C8F4E /* KeychainAccess in Frameworks */,
+				05E079A3560E30C389613010 /* SwiftLlama in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +203,7 @@
 				06513E938570839CC7B5D70F /* MobileChatView.swift */,
 				4A3540BC8297F90B429BEC3C /* MobileOnboardingView.swift */,
 				411B01932C0EA27106AB815E /* MobileSettingsView.swift */,
+				3963B5AF17839545EABAA4BC /* ModelBrowserView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +222,8 @@
 			children = (
 				9BCAAD17CE6895961009ACB1 /* ChatStore.swift */,
 				3BD4E55569C43C3965CE9E52 /* HookSystem.swift */,
+				E3ABDB92D153A231F176DADE /* LocalInference.swift */,
+				DD0B5C54D9AF1C3929797022 /* ModelManager.swift */,
 				36B702EA879E7B4F4572DF52 /* Orchestrator.swift */,
 				E47081D6BBA8F406122EC6FA /* PromptModules.swift */,
 				CA1381126B81ED4CA6A95A64 /* Router.swift */,
@@ -242,6 +253,7 @@
 			packageProductDependencies = (
 				51155DD5E09C94B7C6834F73 /* GRDB */,
 				C92F672CEC4056616C830E1A /* KeychainAccess */,
+				C493AECE56588B24C24D10F2 /* SwiftLlama */,
 			);
 			productName = iPhoneBot;
 			productReference = 4F787ABA1A2C9A0958DB8A84 /* iPhoneBot.app */;
@@ -274,6 +286,7 @@
 			packageReferences = (
 				B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 				7A0FD4ADE1D9816206171CD3 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				03ED20646112CFD455AE32E3 /* XCRemoteSwiftPackageReference "swift-llama-cpp" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9849BE213F6C92E54CBAF1FF /* Products */;
@@ -302,13 +315,16 @@
 				EBF0E96A78D105E7F4842CA1 /* HookSystem.swift in Sources */,
 				95612B5BAB4B536BCC8006B0 /* InferenceProvider.swift in Sources */,
 				41659F27B8A3C80F602ED766 /* KeychainManager.swift in Sources */,
+				0E2CC7AA608A85FFCB87B11B /* LocalInference.swift in Sources */,
 				02D72CBE658A819CB12966BA /* Logger.swift in Sources */,
 				FDBDEE819F23DA7D5D0A7B77 /* MacbotMobileApp.swift in Sources */,
 				80541B0CD24B5B01FBD250F7 /* MemoryStore.swift in Sources */,
 				5D053BA8F077A5E2A02053F5 /* MobileChatView.swift in Sources */,
 				0E505EA3DCB29D1D0326BF57 /* MobileOnboardingView.swift in Sources */,
 				E466AD495E1B3A2B1B2C2B53 /* MobileSettingsView.swift in Sources */,
+				A3F380531C0985916BA8172E /* ModelBrowserView.swift in Sources */,
 				DEBB26E69EE1C45D9876F11C /* ModelConfig.swift in Sources */,
+				ADF5F76EC7D0380CF1212089 /* ModelManager.swift in Sources */,
 				9114625DE1C9C0F371F46879 /* OllamaClient.swift in Sources */,
 				73D50A406849B6919C614584 /* Orchestrator.swift in Sources */,
 				2DD03000112A5CAE0EEE2DB4 /* PromptModules.swift in Sources */,
@@ -463,6 +479,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewbmerino.iphonebot;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_VERSION = 5.10;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -485,6 +502,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.matthewbmerino.iphonebot;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_VERSION = 5.10;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -514,6 +532,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		03ED20646112CFD455AE32E3 /* XCRemoteSwiftPackageReference "swift-llama-cpp" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pgorzelany/swift-llama-cpp";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		7A0FD4ADE1D9816206171CD3 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
@@ -537,6 +563,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B189ABCACB25908927A3E237 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
 			productName = GRDB;
+		};
+		C493AECE56588B24C24D10F2 /* SwiftLlama */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 03ED20646112CFD455AE32E3 /* XCRemoteSwiftPackageReference "swift-llama-cpp" */;
+			productName = SwiftLlama;
 		};
 		C92F672CEC4056616C830E1A /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;

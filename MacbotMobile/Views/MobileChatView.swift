@@ -5,6 +5,7 @@ struct MobileChatView: View {
     let appState: MobileAppState
     @FocusState private var inputFocused: Bool
     @State private var showSettings = false
+    @State private var showModels = false
 
     var body: some View {
         NavigationStack {
@@ -81,6 +82,7 @@ struct MobileChatView: View {
                 ToolbarItem(placement: .automatic) {
                     Menu {
                         Button("New Chat") { viewModel.newChat() }
+                        Button("Models") { showModels = true }
                         Button("Settings") { showSettings = true }
                     } label: {
                         Image(systemName: "ellipsis.circle")
@@ -89,6 +91,9 @@ struct MobileChatView: View {
             }
             .sheet(isPresented: $showSettings) {
                 MobileSettingsView(appState: appState)
+            }
+            .sheet(isPresented: $showModels) {
+                ModelBrowserView()
             }
         }
     }
